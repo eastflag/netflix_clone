@@ -23,6 +23,30 @@ class _HomeScreenState extends State<HomeScreen> {
       'poster': 'test_1.jpg',
       'like': false
     }),
+    Movie.fromMap({
+      'title': '사랑의 불시착',
+      'keyword': '사랑/로매스/판타지',
+      'poster': 'test_1.jpg',
+      'like': false
+    }),
+    Movie.fromMap({
+      'title': '사랑의 불시착',
+      'keyword': '사랑/로매스/판타지',
+      'poster': 'test_1.jpg',
+      'like': false
+    }),
+    Movie.fromMap({
+      'title': '사랑의 불시착',
+      'keyword': '사랑/로매스/판타지',
+      'poster': 'test_1.jpg',
+      'like': false
+    }),
+    Movie.fromMap({
+      'title': '사랑의 불시착',
+      'keyword': '사랑/로매스/판타지',
+      'poster': 'test_1.jpg',
+      'like': false
+    }),
   ];
 
   @override
