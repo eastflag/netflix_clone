@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:netflix_clone/screen/home_screen.dart';
+import 'package:netflix_clone/screen/more_screen.dart';
 import 'package:netflix_clone/widget/bottom_bar.dart';
 
 void main() {
@@ -30,7 +31,7 @@ class _MyAppState extends State<MyApp> {
               HomeScreen(),
               Container(child: const Center(child: Text('검색'))),
               Container(child: const Center(child: Text('목록'))),
-              Container(child: const Center(child: Text('리스트'))),
+              MoreScreen(),
             ],
           ),
           bottomNavigationBar: Bottom(),
