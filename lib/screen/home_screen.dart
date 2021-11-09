@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:netflix_clone/model/model_movie.dart';
 import 'package:netflix_clone/widget/box_slider.dart';
 import 'package:netflix_clone/widget/carousel_image.dart';
@@ -10,44 +12,7 @@ class HomeScreen extends StatefulWidget{
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Movie> movies = [
-    Movie.fromMap({
-      'title': '사랑의 불시착',
-      'keyword': '사랑/로매스/판타지',
-      'poster': 'test_1.jpg',
-      'like': false
-    }),
-    Movie.fromMap({
-      'title': '사랑의 불시착',
-      'keyword': '사랑/로매스/판타지',
-      'poster': 'test_1.jpg',
-      'like': false
-    }),
-    Movie.fromMap({
-      'title': '사랑의 불시착',
-      'keyword': '사랑/로매스/판타지',
-      'poster': 'test_1.jpg',
-      'like': false
-    }),
-    Movie.fromMap({
-      'title': '사랑의 불시착',
-      'keyword': '사랑/로매스/판타지',
-      'poster': 'test_1.jpg',
-      'like': false
-    }),
-    Movie.fromMap({
-      'title': '사랑의 불시착',
-      'keyword': '사랑/로매스/판타지',
-      'poster': 'test_1.jpg',
-      'like': false
-    }),
-    Movie.fromMap({
-      'title': '사랑의 불시착',
-      'keyword': '사랑/로매스/판타지',
-      'poster': 'test_1.jpg',
-      'like': false
-    }),
-  ];
+  List<Movie> movies = [];
 
   @override
   void initState() {
@@ -56,17 +21,37 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Stack(
-          children: [
-            CarouselImage(movies: movies),
-            TopBar()
-          ],
-        ),
-        CircleSlider(movies: movies),
-        BoxSlider(movies: movies),
-      ],
+    List<Movie> movie = [];
+
+    return FutureBuilder<QuerySnapshot>(
+      future: FirebaseFirestore.instance.collection('movie').get(),
+      builder: (context, querySnapshot) {
+        if (querySnapshot.hasData) {
+          // <3> Retrieve `List<DocumentSnapshot>` from snapshot
+          print(querySnapshot.data!.docs);
+          querySnapshot.data!.docs.forEach((documentSnapshot) {
+            movie.add(Movie.fromSnapshot(documentSnapshot));
+          });
+
+          print(movie);
+
+          return ListView(
+            children: <Widget>[
+              Stack(
+                children: [
+                  CarouselImage(movies: movie),
+                  TopBar()
+                ],
+              ),
+              CircleSlider(movies: movie),
+              BoxSlider(movies: movie),
+            ],
+          );
+        } else if (querySnapshot.hasError) {
+          return Text('Error!');
+        }
+        return Text('loading...');
+      },
     );
   }
 }
